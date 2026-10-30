@@ -112,10 +112,26 @@ Once the application is running, you can access the Swagger documentation at:
 - UI: http://localhost:4000/api
 - JSON: http://localhost:4000/api-json
 
-## Testing
+## Testing & Quality Assurance
 
-- **Unit Tests**: `npm test` (Jest)
-- **E2E Tests**: `npm run test:e2e`
+- **Unit Tests**: `npm test` (Runs 27 Jest unit tests across Users, Products, and Transactions)
+- **API Automation Framework**: `npm run test:api` (Runs automated Supertest + Jest API suites)
+- **Playwright API Suite**: `npm run test:playwright` (Runs native Playwright API tests)
+- **Performance Testing**: `k6 run qa/performance-test.js`
+
+### 📊 Interactive HTML Test Reports (Auto-Generated on Every Run)
+
+Running `npm test` or `npm run test:api` automatically generates an interactive HTML dashboard with colored pie charts, response time graphs, and KPI metrics.
+
+- **Unit Test Report**: `reports/unit-test-report.html`
+- **API Automation Report**: `reports/api-test-report.html`
+
+#### How to View the Report:
+- **Windows (PowerShell)**: `Start-Process "reports/unit-test-report.html"`
+- **macOS**: `open reports/unit-test-report.html`
+- **Linux**: `xdg-open reports/unit-test-report.html`
+- **Or double-click** `reports/unit-test-report.html` in File Explorer.
+- **GitHub Actions CI**: Available as a downloadable artifact (`html-test-report.zip`) under the workflow run summary.
 
 ## Deployment (Docker)
 
