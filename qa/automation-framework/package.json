@@ -1,0 +1,10 @@
+{
+  "name": "ella-api-automation-framework",
+  "version": "1.0.0",
+  "description": "Production-grade automated API testing framework for Ella API",
+  "scripts": {
+    "test": "jest --config jest.config.js",
+    "test:e2e": "jest --config jest.config.js tests/e2e-user-flow.spec.ts"
+  }
+}
+

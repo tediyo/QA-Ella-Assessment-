@@ -1,0 +1,126 @@
+name: Ella API CI/CD Pipeline
+
+on:
+  push:
+    branches: [main, master, develop]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint-and-validate:
+    name: Code Quality & Linting
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: Run ESLint
+        run: npm run lint
+
+  build:
+    name: Compile & Build Application
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: Build NestJS Application
+        run: npm run build
+
+      - name: Verify Build Artifacts
+        run: |
+          test -f dist/src/main.js || { echo "dist/src/main.js is missing!"; exit 1; }
+
+  unit-tests:
+    name: Run Unit Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: Run Jest Unit Tests with Coverage
+        run: npm test -- --coverage --ci --colors
+
+      - name: Upload Test Coverage
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: unit-test-coverage
+          path: coverage/
+          retention-days: 7
+
+      - name: Upload HTML Test Report Artifact
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: html-test-report
+          path: reports/
+          retention-days: 14
+
+  docker-build-verification:
+    name: Container Build Verification
+    needs: [lint-and-validate, build, unit-tests]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Create Dummy .env for Container Build
+        run: cp .env.example .env
+
+      - name: Build Container Image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: false
+          tags: ella-api:ci-test
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  deploy-staging:
+    name: Continuous Deployment (Staging)
+    needs: [docker-build-verification]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deployment Simulation / CD Gate
+        run: |
+          echo "All quality checks passed!"
+          echo "Target Environment: Staging"
+          echo "Ready to push image to container registry (ECR/GCR) and trigger ECS/Kubernetes rolling deploy."
+

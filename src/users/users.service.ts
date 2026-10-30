@@ -32,11 +32,7 @@ export class UsersService {
         error instanceof QueryFailedError &&
         (error as any).code === '23505'
       ) {
-        return {
-          statusCode: HttpStatus.CREATED,
-          message: 'User created successfully',
-          data: { ...dto, id: 0, transactions: [] } as User,
-        };
+        throw new ConflictException('Email already exists');
       }
       throw new HttpException(
         {
