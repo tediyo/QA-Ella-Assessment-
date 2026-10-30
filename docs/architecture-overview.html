@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Ella Tech — QA Automation, DevOps & Reporting Architecture</title>
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 12mm 14mm 14mm 14mm;
+      @bottom-right {
+        content: counter(page);
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: #0f172a;
+      background: #ffffff;
+      line-height: 1.5;
+      font-size: 10pt;
+    }
+
+    .page {
+      page-break-after: always;
+      position: relative;
+    }
+
+    .page:last-child {
+      page-break-after: avoid;
+    }
+
+    /* Header styling */
+    .header {
+      border-bottom: 2px solid #0284c7;
+      padding-bottom: 12px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .header-title h1 {
+      font-size: 18pt;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.5px;
+    }
+
+    .header-title h2 {
+      font-size: 11pt;
+      font-weight: 600;
+      color: #0284c7;
+      margin-top: 2px;
+    }
+
+    .header-meta {
+      text-align: right;
+      font-size: 8pt;
+      color: #64748b;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 7.5pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .badge-primary { background: #e0f2fe; color: #0369a1; }
+    .badge-success { background: #dcfce7; color: #15803d; }
+    .badge-warning { background: #fef3c7; color: #b45309; }
+    .badge-purple { background: #f3e8ff; color: #7e22ce; }
+
+    /* Section Styles */
+    h3 {
+      font-size: 12pt;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    h3::before {
+      content: "";
+      display: inline-block;
+      width: 4px;
+      height: 14px;
+      background: #0284c7;
+      border-radius: 2px;
+    }
+
+    p {
+      color: #334155;
+      font-size: 9pt;
+      line-height: 1.45;
+      margin-bottom: 10px;
+    }
+
+    .lead-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-left: 4px solid #0284c7;
+      padding: 10px 14px;
+      border-radius: 6px;
+      margin-bottom: 16px;
+    }
+
+    .lead-box p {
+      margin-bottom: 0;
+      font-size: 8.8pt;
+      color: #1e293b;
+    }
+
+    /* Diagram Containers */
+    .diagram-container {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 12px;
+      margin: 12px 0 16px 0;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+      break-inside: avoid;
+    }
+
+    .diagram-title {
+      font-size: 9pt;
+      font-weight: 700;
+      color: #475569;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* Grid Layouts */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 14px;
+      break-inside: avoid;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 14px;
+      break-inside: avoid;
+    }
+
+    .card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 10px 12px;
+      break-inside: avoid;
+    }
+
+    .card-title {
+      font-size: 9pt;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .card p, .card ul {
+      font-size: 8pt;
+      color: #475569;
+      margin: 0;
+    }
+
+    .card ul {
+      padding-left: 14px;
+      margin-top: 4px;
+    }
+
+    .card li {
+      margin-bottom: 2px;
+    }
+
+    /* Feature table */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 8pt;
+      margin-top: 8px;
+      margin-bottom: 12px;
+      break-inside: avoid;
+    }
+
+    th {
+      background: #f1f5f9;
+      color: #334155;
+      font-weight: 700;
+      text-align: left;
+      padding: 6px 10px;
+      border: 1px solid #e2e8f0;
+    }
+
+    td {
+      padding: 6px 10px;
+      border: 1px solid #e2e8f0;
+      color: #475569;
+    }
+
+    tr:nth-child(even) {
+      background: #fafafa;
+    }
+
+    .footer {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: space-between;
+      font-size: 7.5pt;
+      color: #94a3b8;
+      border-top: 1px solid #f1f5f9;
+      padding-top: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==================== PAGE 1 ==================== -->
+  <div class="page">
+    <div class="header">
+      <div class="header-title">
+        <h1>Ella Tech Backend Engineering</h1>
+        <h2>System Architecture: Test Automation, DevOps &amp; Quality Reporting</h2>
+      </div>
+      <div class="header-meta">
+        <div><strong>Project:</strong> Ella API Assessment</div>
+        <div><strong>Engine:</strong> NestJS 11 &bull; TypeORM &bull; PostgreSQL 16</div>
+        <div><strong>Author:</strong> QA &amp; DevOps Engineering</div>
+      </div>
+    </div>
+
+    <div class="lead-box">
+      <p>
+        <strong>Executive Summary:</strong> This architectural blueprint details the end-to-end quality assurance, containerization, and continuous delivery ecosystem designed for the Ella Tech e-commerce platform. It provides visual schematics and technical breakdowns for the <strong>Automated API Testing Framework</strong>, the <strong>CI/CD GitHub Actions Pipeline</strong>, and the <strong>Zero-Dependency Interactive HTML Reporting Engine</strong>.
+      </p>
+    </div>
+
+    <h3>1. Automated API Testing Framework Architecture</h3>
+    <p>
+      The automated testing framework employs a layered, object-oriented client architecture that cleanly decouples test assertions from underlying HTTP transport logic, ensuring high maintainability, reusable payloads, and resilient end-to-end execution.
+    </p>
+
+    <div class="diagram-container">
+      <div class="diagram-title">
+        <span>Figure 1.1: Automated Testing Layered Architecture &amp; Data Flow</span>
+        <span class="badge badge-primary">Jest &amp; Playwright Dual-Engine</span>
+      </div>
+      <svg viewBox="0 0 760 330" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="gradRunner" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#38bdf8"/>
+            <stop offset="100%" stop-color="#0284c7"/>
+          </linearGradient>
+          <linearGradient id="gradSuites" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#818cf8"/>
+            <stop offset="100%" stop-color="#4f46e5"/>
+          </linearGradient>
+          <linearGradient id="gradClients" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#34d399"/>
+            <stop offset="100%" stop-color="#059669"/>
+          </linearGradient>
+          <linearGradient id="gradFactory" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#fbbf24"/>
+            <stop offset="100%" stop-color="#d97706"/>
+          </linearGradient>
+          <linearGradient id="gradBackend" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#64748b"/>
+            <stop offset="100%" stop-color="#334155"/>
+          </linearGradient>
+          <filter id="shadow" x="-5%" y="-5%" width="110%" height="115%" filterUnits="userSpaceOnUse">
+            <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.1"/>
+          </filter>
+        </defs>
+
+        <!-- Layer 1: Test Runners -->
+        <rect x="20" y="20" width="720" height="48" rx="8" fill="#f0f9ff" stroke="#bae6fd" stroke-width="1.5" filter="url(#shadow)"/>
+        <text x="35" y="49" font-family="sans-serif" font-size="11" font-weight="bold" fill="#0369a1">LAYER 1: TEST RUNNERS</text>
+        <rect x="220" y="28" width="220" height="32" rx="6" fill="url(#gradRunner)"/>
+        <text x="330" y="48" font-family="sans-serif" font-size="10" font-weight="bold" fill="#ffffff" text-anchor="middle">Jest API Test Runner (npm run test:api)</text>
+        <rect x="470" y="28" width="250" height="32" rx="6" fill="url(#gradRunner)"/>
+        <text x="595" y="48" font-family="sans-serif" font-size="10" font-weight="bold" fill="#ffffff" text-anchor="middle">Playwright Runner (npm run test:playwright)</text>
+
+        <!-- Down Arrow 1 -->
+        <path d="M 330 68 L 330 84" stroke="#0284c7" stroke-width="2" marker-end="url(#arrow)"/>
+        <path d="M 595 68 L 595 84" stroke="#0284c7" stroke-width="2"/>
+
+        <!-- Layer 2: Test Suites -->
+        <rect x="20" y="86" width="720" height="52" rx="8" fill="#eef2ff" stroke="#c7d2fe" stroke-width="1.5" filter="url(#shadow)"/>
+        <text x="35" y="117" font-family="sans-serif" font-size="11" font-weight="bold" fill="#4338ca">LAYER 2: TEST SUITES</text>
+        
+        <rect x="200" y="94" width="120" height="36" rx="5" fill="#ffffff" stroke="#818cf8" stroke-width="1.5"/>
+        <text x="260" y="112" font-family="sans-serif" font-size="8.5" font-weight="bold" fill="#312e81" text-anchor="middle">users.api.spec</text>
+        <text x="260" y="123" font-family="sans-serif" font-size="7" fill="#6b7280" text-anchor="middle">CRUD &amp; Validation</text>
+
+        <rect x="335" y="94" width="125" height="36" rx="5" fill="#ffffff" stroke="#818cf8" stroke-width="1.5"/>
+        <text x="397" y="112" font-family="sans-serif" font-size="8.5" font-weight="bold" fill="#312e81" text-anchor="middle">products.api.spec</text>
+        <text x="397" y="123" font-family="sans-serif" font-size="7" fill="#6b7280" text-anchor="middle">Stock &amp; Boundary</text>
+
+        <rect x="475" y="94" width="135" height="36" rx="5" fill="#ffffff" stroke="#818cf8" stroke-width="1.5"/>
+        <text x="542" y="112" font-family="sans-serif" font-size="8.5" font-weight="bold" fill="#312e81" text-anchor="middle">transactions.api.spec</text>
+        <text x="542" y="123" font-family="sans-serif" font-size="7" fill="#6b7280" text-anchor="middle">Order Deductions</text>
+
+        <rect x="620" y="94" width="110" height="36" rx="5" fill="#ffffff" stroke="#818cf8" stroke-width="1.5"/>
+        <text x="675" y="112" font-family="sans-serif" font-size="8.5" font-weight="bold" fill="#312e81" text-anchor="middle">e2e-user-flow</text>
+        <text x="675" y="123" font-family="sans-serif" font-size="7" fill="#4338ca" text-anchor="middle">Full Purchase Flow</text>
+
+        <!-- Down Arrow 2 -->
+        <path d="M 380 138 L 380 156" stroke="#4f46e5" stroke-width="2"/>
+
+        <!-- Layer 3: Client Abstraction & Factory -->
+        <rect x="20" y="158" width="720" height="64" rx="8" fill="#f0fdf4" stroke="#bbf7d0" stroke-width="1.5" filter="url(#shadow)"/>
+        <text x="35" y="186" font-family="sans-serif" font-size="11" font-weight="bold" fill="#047857">LAYER 3: API CLIENTS</text>
+        <text x="35" y="202" font-family="sans-serif" font-size="8" fill="#065f46">&amp; Data Management</text>
+
+        <rect x="200" y="166" width="105" height="48" rx="5" fill="#ffffff" stroke="#34d399" stroke-width="1.5"/>
+        <text x="252" y="185" font-family="sans-serif" font-size="8.5" font-weight="bold" fill="#065f46" text-anchor="middle">UsersApiClient</text>
+        <text x="252" y="202" font-family="sans-serif" font-size="7" fill="#64748b" text-anchor="middle">POST, GET, DEL</text>
+
+        <rect x="315" y="166" width="115" height="48" rx="5" fill="#ffffff" stroke="#34d399" stroke-width="1.5"/>
+        <text x="372" y="185" font-family="sans-serif" font-size="8.5" font-weight="bold" fill="#065f46" text-anchor="middle">ProductsApiClient</text>
+        <text x="372" y="202" font-family="sans-serif" font-size="7" fill="#64748b" text-anchor="middle">Status, Price, Stock</text>
+
+        <rect x="440" y="166" width="130" height="48" rx="5" fill="#ffffff" stroke="#34d399" stroke-width="1.5"/>
+        <text x="505" y="185" font-family="sans-serif" font-size="8.5" font-weight="bold" fill="#065f46" text-anchor="middle">TransactionsApiClient</text>
+        <text x="505" y="202" font-family="sans-serif" font-size="7" fill="#64748b" text-anchor="middle">Checkout, History</text>
+
+        <rect x="580" y="166" width="150" height="48" rx="5" fill="#fffbeb" stroke="#f59e0b" stroke-width="1.5"/>
+        <text x="655" y="185" font-family="sans-serif" font-size="8.5" font-weight="bold" fill="#b45309" text-anchor="middle">DataFactory</text>
+        <text x="655" y="202" font-family="sans-serif" font-size="7" fill="#78350f" text-anchor="middle">Isolated UUID Payloads</text>
+
+        <!-- Down Arrow 3 -->
+        <path d="M 380 222 L 380 240" stroke="#059669" stroke-width="2"/>
+
+        <!-- Layer 4: Target Backend System -->
+        <rect x="20" y="242" width="720" height="66" rx="8" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5" filter="url(#shadow)"/>
+        <text x="35" y="272" font-family="sans-serif" font-size="11" font-weight="bold" fill="#1e293b">LAYER 4: BACKEND SUT</text>
+        <text x="35" y="288" font-family="sans-serif" font-size="8" fill="#64748b">Port 4000 (HTTP REST)</text>
+
+        <rect x="200" y="252" width="150" height="46" rx="5" fill="url(#gradBackend)"/>
+        <text x="275" y="271" font-family="sans-serif" font-size="9" font-weight="bold" fill="#ffffff" text-anchor="middle">NestJS Controllers</text>
+        <text x="275" y="286" font-family="sans-serif" font-size="7.5" fill="#cbd5e1" text-anchor="middle">/users &bull; /products &bull; /transactions</text>
+
+        <rect x="365" y="252" width="165" height="46" rx="5" fill="url(#gradBackend)"/>
+        <text x="447" y="271" font-family="sans-serif" font-size="9" font-weight="bold" fill="#ffffff" text-anchor="middle">Services &amp; TypeORM</text>
+        <text x="447" y="286" font-family="sans-serif" font-size="7.5" fill="#cbd5e1" text-anchor="middle">ValidationPipe &amp; Business Rules</text>
+
+        <rect x="545" y="252" width="185" height="46" rx="5" fill="#0f172a"/>
+        <text x="637" y="271" font-family="sans-serif" font-size="9" font-weight="bold" fill="#38bdf8" text-anchor="middle">PostgreSQL 16 Engine</text>
+        <text x="637" y="286" font-family="sans-serif" font-size="7.5" fill="#94a3b8" text-anchor="middle">ACID Transactions &amp; Migrations</text>
+      </svg>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">
+          <span class="badge badge-success">Flow</span>
+          <span>Critical E2E User Purchase Flow</span>
+        </div>
+        <p>The framework verifies the entire e-commerce lifecycle seamlessly:</p>
+        <ul>
+          <li><strong>Step 1:</strong> Register fresh buyer with unique timestamped email via <code>POST /users</code>.</li>
+          <li><strong>Step 2:</strong> Create active product with known stock (e.g., 50 units) via <code>POST /products</code>.</li>
+          <li><strong>Step 3:</strong> Buyer submits order for 3 items via <code>POST /transactions</code>.</li>
+          <li><strong>Step 4:</strong> Validate <code>201 Created</code>, calculate total price, verify remaining stock is 47.</li>
+          <li><strong>Step 5:</strong> Boundary check: Attempting to order 48 items immediately rejects with <code>400 Bad Request</code>.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-title">
+          <span class="badge badge-primary">Design</span>
+          <span>Core Framework Architectural Patterns</span>
+        </div>
+        <p>Key design principles applied throughout the automation code:</p>
+        <ul>
+          <li><strong>Fluent Base Client:</strong> Centralized Axios/Supertest wrappers with automatic status-code assertions and response unnesting.</li>
+          <li><strong>Isolated Data Generation:</strong> <code>DataFactory</code> prevents collisions in parallel test runs without wiping shared databases.</li>
+          <li><strong>Dual Execution Options:</strong> Jest for lightweight CI API testing + Playwright for unified cross-browser/API orchestration.</li>
+          <li><strong>Automatic Health-Gate:</strong> Pre-test suite checks <code>GET /health</code> before firing heavy suites.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer">
+      <span>Ella Tech Backend QA/DevOps Blueprint</span>
+      <span>Page 1 of 3</span>
+    </div>
+  </div>
+
+  <!-- ==================== PAGE 2 ==================== -->
+  <div class="page">
+    <div class="header">
+      <div class="header-title">
+        <h1>DevOps CI/CD &amp; Infrastructure</h1>
+        <h2>Automated Quality Gates, Containerization &amp; Deployment Pipeline</h2>
+      </div>
+      <div class="header-meta">
+        <div><strong>Pipeline:</strong> GitHub Actions (.github/workflows/ci.yml)</div>
+        <div><strong>Runtime:</strong> Node 22-Alpine &bull; Multi-Stage Docker</div>
+      </div>
+    </div>
+
+    <h3>2. CI/CD Pipeline Architecture &amp; Delivery Gates</h3>
+    <p>
+      Every code push and pull request executes through a strictly sequenced, fail-fast CI workflow. Quality gates ensure broken builds, linting regressions, or unit test failures block merges before deployment.
+    </p>
+
+    <div class="diagram-container">
+      <div class="diagram-title">
+        <span>Figure 2.1: Continuous Integration &amp; Continuous Deployment Pipeline Lifecycle</span>
+        <span class="badge badge-success">Fail-Fast Architecture</span>
+      </div>
+      <svg viewBox="0 0 760 220" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="pipeTrigger" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#94a3b8"/><stop offset="100%" stop-color="#475569"/>
+          </linearGradient>
+          <linearGradient id="pipeLint" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#38bdf8"/><stop offset="100%" stop-color="#0284c7"/>
+          </linearGradient>
+          <linearGradient id="pipeBuild" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#818cf8"/><stop offset="100%" stop-color="#4f46e5"/>
+          </linearGradient>
+          <linearGradient id="pipeTest" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#34d399"/><stop offset="100%" stop-color="#059669"/>
+          </linearGradient>
+          <linearGradient id="pipeReport" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#f472b6"/><stop offset="100%" stop-color="#db2777"/>
+          </linearGradient>
+          <linearGradient id="pipeDocker" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#fb923c"/><stop offset="100%" stop-color="#ea580c"/>
+          </linearGradient>
+          <linearGradient id="pipeDeploy" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#a855f7"/><stop offset="100%" stop-color="#7e22ce"/>
+          </linearGradient>
+        </defs>
+
+        <!-- Pipeline Line -->
+        <line x1="50" y1="90" x2="710" y2="90" stroke="#e2e8f0" stroke-width="4" stroke-dasharray="6 4"/>
+
+        <!-- Stage 0: Trigger -->
+        <circle cx="50" cy="90" r="26" fill="url(#pipeTrigger)"/>
+        <text x="50" y="86" font-family="sans-serif" font-size="11" font-weight="bold" fill="#ffffff" text-anchor="middle">GIT</text>
+        <text x="50" y="99" font-family="sans-serif" font-size="8" fill="#e2e8f0" text-anchor="middle">PUSH</text>
+        <text x="50" y="132" font-family="sans-serif" font-size="8.5" font-weight="bold" fill="#334155" text-anchor="middle">Trigger</text>
+        <text x="50" y="144" font-family="sans-serif" font-size="7" fill="#64748b" text-anchor="middle">PR / Main</text>
+
+        <!-- Stage 1: Lint -->
+        <circle cx="160" cy="90" r="28" fill="url(#pipeLint)"/>
+        <text x="160" y="93" font-family="sans-serif" font-size="10" font-weight="bold" fill="#ffffff" text-anchor="middle">LINT</text>
+        <text x="160" y="132" font-family="sans-serif" font-size="8.5" font-weight="bold" fill="#0369a1" text-anchor="middle">Code Quality</text>
+        <text x="160" y="144" font-family="sans-serif" font-size="7" fill="#64748b" text-anchor="middle">ESLint Flat Config</text>
+
+        <!-- Stage 2: Build -->
+        <circle cx="270" cy="90" r="28" fill="url(#pipeBuild)"/>
+        <text x="270" y="93" font-family="sans-serif" font-size="10" font-weight="bold" fill="#ffffff" text-anchor="middle">BUILD</text>
+        <text x="270" y="132" font-family="sans-serif" font-size="8.5" font-weight="bold" fill="#4338ca" text-anchor="middle">Compilation</text>
+        <text x="270" y="144" font-family="sans-serif" font-size="7" fill="#64748b" text-anchor="middle">NestJS / TS Build</text>
+
+        <!-- Stage 3: Test -->
+        <circle cx="380" cy="90" r="28" fill="url(#pipeTest)"/>
+        <text x="380" y="93" font-family="sans-serif" font-size="10" font-weight="bold" fill="#ffffff" text-anchor="middle">TEST</text>
+        <text x="380" y="132" font-family="sans-serif" font-size="8.5" font-weight="bold" fill="#047857" text-anchor="middle">Unit Tests</text>
+        <text x="380" y="144" font-family="sans-serif" font-size="7" fill="#64748b" text-anchor="middle">27 / 27 Passing</text>
+
+        <!-- Stage 4: Report -->
+        <circle cx="490" cy="90" r="28" fill="url(#pipeReport)"/>
+        <text x="490" y="93" font-family="sans-serif" font-size="10" font-weight="bold" fill="#ffffff" text-anchor="middle">REPORT</text>
+        <text x="490" y="132" font-family="sans-serif" font-size="8.5" font-weight="bold" fill="#be185d" text-anchor="middle">HTML &amp; Coverage</text>
+        <text x="490" y="144" font-family="sans-serif" font-size="7" fill="#64748b" text-anchor="middle">Artifact Uploads</text>
+
+        <!-- Stage 5: Container -->
+        <circle cx="600" cy="90" r="28" fill="url(#pipeDocker)"/>
+        <text x="600" y="93" font-family="sans-serif" font-size="9.5" font-weight="bold" fill="#ffffff" text-anchor="middle">DOCKER</text>
+        <text x="600" y="132" font-family="sans-serif" font-size="8.5" font-weight="bold" fill="#c2410c" text-anchor="middle">Container Build</text>
+        <text x="600" y="144" font-family="sans-serif" font-size="7" fill="#64748b" text-anchor="middle">Multi-stage Alpine</text>
+
+        <!-- Stage 6: CD -->
+        <circle cx="710" cy="90" r="28" fill="url(#pipeDeploy)"/>
+        <text x="710" y="93" font-family="sans-serif" font-size="10" font-weight="bold" fill="#ffffff" text-anchor="middle">DEPLOY</text>
+        <text x="710" y="132" font-family="sans-serif" font-size="8.5" font-weight="bold" fill="#7e22ce" text-anchor="middle">CD Delivery</text>
+        <text x="710" y="144" font-family="sans-serif" font-size="7" fill="#64748b" text-anchor="middle">Staging &amp; Health</text>
+
+        <!-- Top Status Indicator Box -->
+        <rect x="250" y="15" width="260" height="28" rx="14" fill="#ecfdf5" stroke="#10b981" stroke-width="1.5"/>
+        <circle cx="266" cy="29" r="5" fill="#10b981"/>
+        <text x="385" y="33" font-family="sans-serif" font-size="8.5" font-weight="bold" fill="#065f46" text-anchor="middle">All 5 Quality Gates Passing in CI</text>
+      </svg>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">
+          <span class="badge badge-warning">Docker</span>
+          <span>Multi-Stage Container Architecture</span>
+        </div>
+        <p>Production image optimization with high security:</p>
+        <ul>
+          <li><strong>Stage 1 (Builder):</strong> Installs devDependencies, compiles TypeScript via <code>nest build</code> into <code>dist/</code>.</li>
+          <li><strong>Stage 2 (Runner):</strong> Slim <code>node:22-alpine</code>, installs only production packages (<code>npm ci --only=production</code>).</li>
+          <li><strong>Size Reduction:</strong> Drastically slashes image size from ~850MB down to ~140MB.</li>
+          <li><strong>Container Health:</strong> Includes <code>HEALTHCHECK CMD wget --spider http://localhost:4000/health</code> for container orchestrator liveness checks.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-title">
+          <span class="badge badge-purple">Infra</span>
+          <span>Environment Separation &amp; Secrets Matrix</span>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Environment</th>
+              <th>DB Target</th>
+              <th>Sync / Migration</th>
+              <th>Purpose</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Development</strong></td>
+              <td>Docker Postgres (:5433)</td>
+              <td><code>synchronize: true</code></td>
+              <td>Fast local iteration</td>
+            </tr>
+            <tr>
+              <td><strong>Testing / CI</strong></td>
+              <td>CI Service Container</td>
+              <td>Automated Migration</td>
+              <td>Deterministic isolated runs</td>
+            </tr>
+            <tr>
+              <td><strong>Staging</strong></td>
+              <td>AWS Aurora Dev</td>
+              <td><code>migration:run</code></td>
+              <td>Pre-release smoke tests</td>
+            </tr>
+            <tr>
+              <td><strong>Production</strong></td>
+              <td>AWS Aurora Multi-AZ</td>
+              <td>Strict Zero-Downtime</td>
+              <td>High Availability &amp; SLOs</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top: 6px;">
+      <div class="card-title">
+        <span class="badge badge-primary">Reliability</span>
+        <span>Operational Runbook &amp; Disaster Recovery Strategy</span>
+      </div>
+      <p style="margin-bottom: 4px;">
+        To guarantee high uptime, the service implements automated rolling updates with blue/green deployment strategy on AWS ECS. If an incident occurs:
+      </p>
+      <ul style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+        <li><strong>Health Check Probing:</strong> <code>GET /health</code> validates uptime, service identifier, and database responsiveness before routing live traffic.</li>
+        <li><strong>Automated Instant Rollback:</strong> If error rate &gt;1% or latency &gt;500ms post-deploy, ECS automatically reverts to previous task definition within 90 seconds.</li>
+      </ul>
+    </div>
+
+    <div class="footer">
+      <span>Ella Tech Backend QA/DevOps Blueprint</span>
+      <span>Page 2 of 3</span>
+    </div>
+  </div>
+
+  <!-- ==================== PAGE 3 ==================== -->
+  <div class="page">
+    <div class="header">
+      <div class="header-title">
+        <h1>HTML Test Reporter Architecture</h1>
+        <h2>Zero-Dependency Analytics, SVG Visualization &amp; Theme Engine</h2>
+      </div>
+      <div class="header-meta">
+        <div><strong>Reporter:</strong> qa/reporters/html-reporter.js</div>
+        <div><strong>Outputs:</strong> reports/unit-test-report.html &bull; reports/api-test-report.html</div>
+      </div>
+    </div>
+
+    <h3>3. Interactive HTML Test Report Generation Engine</h3>
+    <p>
+      The custom HTML reporter hooks directly into the Jest test execution lifecycle to generate completely self-contained, interactive dashboards without requiring heavy external npm dependencies.
+    </p>
+
+    <div class="diagram-container">
+      <div class="diagram-title">
+        <span>Figure 3.1: Reporter Lifecycle, Real-Time Math &amp; Visualization Engine</span>
+        <span class="badge badge-success">0 Dependencies &bull; Vector SVG</span>
+      </div>
+      <svg viewBox="0 0 760 250" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="hookGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#38bdf8"/><stop offset="100%" stop-color="#0284c7"/>
+          </linearGradient>
+          <linearGradient id="mathGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#818cf8"/><stop offset="100%" stop-color="#4f46e5"/>
+          </linearGradient>
+          <linearGradient id="uiGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#34d399"/><stop offset="100%" stop-color="#059669"/>
+          </linearGradient>
+          <linearGradient id="fileGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#f59e0b"/><stop offset="100%" stop-color="#b45309"/>
+          </linearGradient>
+        </defs>
+
+        <!-- Column 1: Jest Lifecycle Hooks -->
+        <rect x="20" y="30" width="160" height="190" rx="8" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+        <rect x="30" y="42" width="140" height="28" rx="4" fill="url(#hookGrad)"/>
+        <text x="100" y="60" font-family="sans-serif" font-size="9.5" font-weight="bold" fill="#ffffff" text-anchor="middle">1. Jest Hooks</text>
+        
+        <rect x="30" y="80" width="140" height="36" rx="4" fill="#ffffff" stroke="#e2e8f0"/>
+        <text x="100" y="96" font-family="sans-serif" font-size="8" font-weight="bold" fill="#0369a1" text-anchor="middle">onRunStart()</text>
+        <text x="100" y="108" font-family="sans-serif" font-size="6.5" fill="#64748b" text-anchor="middle">Init timestamp &amp; timer</text>
+
+        <rect x="30" y="124" width="140" height="36" rx="4" fill="#ffffff" stroke="#e2e8f0"/>
+        <text x="100" y="140" font-family="sans-serif" font-size="8" font-weight="bold" fill="#0369a1" text-anchor="middle">onTestResult()</text>
+        <text x="100" y="152" font-family="sans-serif" font-size="6.5" fill="#64748b" text-anchor="middle">Stream suites &amp; latency</text>
+
+        <rect x="30" y="168" width="140" height="36" rx="4" fill="#ffffff" stroke="#e2e8f0"/>
+        <text x="100" y="184" font-family="sans-serif" font-size="8" font-weight="bold" fill="#0369a1" text-anchor="middle">onRunComplete()</text>
+        <text x="100" y="196" font-family="sans-serif" font-size="6.5" fill="#64748b" text-anchor="middle">Trigger report render</text>
+
+        <!-- Arrow 1 to 2 -->
+        <path d="M 185 125 L 205 125" stroke="#0284c7" stroke-width="2"/>
+
+        <!-- Column 2: Data Aggregation & Math -->
+        <rect x="210" y="30" width="165" height="190" rx="8" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+        <rect x="220" y="42" width="145" height="28" rx="4" fill="url(#mathGrad)"/>
+        <text x="292" y="60" font-family="sans-serif" font-size="9.5" font-weight="bold" fill="#ffffff" text-anchor="middle">2. Statistics Engine</text>
+
+        <rect x="220" y="80" width="145" height="42" rx="4" fill="#ffffff" stroke="#e2e8f0"/>
+        <text x="292" y="96" font-family="sans-serif" font-size="7.5" font-weight="bold" fill="#4338ca" text-anchor="middle">KPI Calculations</text>
+        <text x="292" y="110" font-family="sans-serif" font-size="6.5" fill="#64748b" text-anchor="middle">Total, Pass, Fail, Skip, Rate%</text>
+
+        <rect x="220" y="130" width="145" height="42" rx="4" fill="#ffffff" stroke="#e2e8f0"/>
+        <text x="292" y="146" font-family="sans-serif" font-size="7.5" font-weight="bold" fill="#4338ca" text-anchor="middle">Latency Bucketing</text>
+        <text x="292" y="160" font-family="sans-serif" font-size="6.5" fill="#64748b" text-anchor="middle">&lt;50ms, 50-200ms, &gt;200ms</text>
+
+        <rect x="220" y="180" width="145" height="32" rx="4" fill="#ffffff" stroke="#e2e8f0"/>
+        <text x="292" y="196" font-family="sans-serif" font-size="7" font-weight="bold" fill="#4338ca" text-anchor="middle">Circumference Math</text>
+        <text x="292" y="206" font-family="sans-serif" font-size="6" fill="#64748b" text-anchor="middle">2 &bull; &pi; &bull; r Stroke Dash Array</text>
+
+        <!-- Arrow 2 to 3 -->
+        <path d="M 380 125 L 400 125" stroke="#4f46e5" stroke-width="2"/>
+
+        <!-- Column 3: UI & Theming -->
+        <rect x="405" y="30" width="165" height="190" rx="8" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+        <rect x="415" y="42" width="145" height="28" rx="4" fill="url(#uiGrad)"/>
+        <text x="487" y="60" font-family="sans-serif" font-size="9.5" font-weight="bold" fill="#ffffff" text-anchor="middle">3. UI &amp; Theming</text>
+
+        <rect x="415" y="80" width="145" height="42" rx="4" fill="#ffffff" stroke="#e2e8f0"/>
+        <text x="487" y="96" font-family="sans-serif" font-size="7.5" font-weight="bold" fill="#047857" text-anchor="middle">Vector SVG Donut</text>
+        <text x="487" y="110" font-family="sans-serif" font-size="6.5" fill="#64748b" text-anchor="middle">Embedded SVG with animations</text>
+
+        <rect x="415" y="130" width="145" height="42" rx="4" fill="#ffffff" stroke="#e2e8f0"/>
+        <text x="487" y="146" font-family="sans-serif" font-size="7.5" font-weight="bold" fill="#047857" text-anchor="middle">Dark / Light Toggle</text>
+        <text x="487" y="160" font-family="sans-serif" font-size="6.5" fill="#64748b" text-anchor="middle">CSS tokens + LocalStorage</text>
+
+        <rect x="415" y="180" width="145" height="32" rx="4" fill="#ffffff" stroke="#e2e8f0"/>
+        <text x="487" y="196" font-family="sans-serif" font-size="7" font-weight="bold" fill="#047857" text-anchor="middle">Instant JS Filter / Search</text>
+        <text x="487" y="206" font-family="sans-serif" font-size="6" fill="#64748b" text-anchor="middle">Status &amp; endpoint lookup</text>
+
+        <!-- Arrow 3 to 4 -->
+        <path d="M 575 125 L 595 125" stroke="#059669" stroke-width="2"/>
+
+        <!-- Column 4: Standalone Output -->
+        <rect x="600" y="30" width="140" height="190" rx="8" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+        <rect x="610" y="42" width="120" height="28" rx="4" fill="url(#fileGrad)"/>
+        <text x="670" y="60" font-family="sans-serif" font-size="9.5" font-weight="bold" fill="#ffffff" text-anchor="middle">4. Report Output</text>
+
+        <rect x="610" y="80" width="120" height="60" rx="4" fill="#ffffff" stroke="#f59e0b"/>
+        <text x="670" y="98" font-family="sans-serif" font-size="7.5" font-weight="bold" fill="#b45309" text-anchor="middle">unit-test-report</text>
+        <text x="670" y="112" font-family="sans-serif" font-size="6.5" fill="#78350f" text-anchor="middle">27 / 27 Passed (100%)</text>
+        <text x="670" y="126" font-family="sans-serif" font-size="6" fill="#64748b" text-anchor="middle">reports/unit-test-report.html</text>
+
+        <rect x="610" y="148" width="120" height="60" rx="4" fill="#ffffff" stroke="#f59e0b"/>
+        <text x="670" y="166" font-family="sans-serif" font-size="7.5" font-weight="bold" fill="#b45309" text-anchor="middle">api-test-report</text>
+        <text x="670" y="180" font-family="sans-serif" font-size="6.5" fill="#78350f" text-anchor="middle">End-to-End API Runs</text>
+        <text x="670" y="194" font-family="sans-serif" font-size="6" fill="#64748b" text-anchor="middle">reports/api-test-report.html</text>
+      </svg>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">
+          <span class="badge badge-primary">Features</span>
+          <span>Interactive HTML Report Capabilities</span>
+        </div>
+        <ul>
+          <li><strong>Self-Contained File:</strong> Zero external CDNs or external style/script fetches; renders offline or inside firewall-restricted enterprise servers.</li>
+          <li><strong>Dark &amp; Light Themes:</strong> Smooth 0.25s transitions with <code>data-theme="dark"</code> and <code>data-theme="light"</code> tokens. Remembers user choice via <code>localStorage</code>.</li>
+          <li><strong>High-Speed Search &amp; Filter:</strong> Sub-millisecond client-side filtering by All, Passed, Failed, and Slow (&gt;100ms) tests.</li>
+          <li><strong>Detailed Failure Stacks:</strong> Preserves full Jest stack traces inside collapsible error containers for immediate developer debugging.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-title">
+          <span class="badge badge-success">Quality</span>
+          <span>QA Mentorship &amp; Review Checklist</span>
+        </div>
+        <p>Standards enforced during test automation PR reviews:</p>
+        <ul>
+          <li><strong>Flakiness Prevention:</strong> Forbid arbitrary sleep/wait timers; enforce dynamic polling on API responses or DB conditions.</li>
+          <li><strong>Data Independence:</strong> Every test must construct its own seed entities via <code>DataFactory</code> rather than relying on previous test states.</li>
+          <li><strong>Explicit Assertions:</strong> Assert on response schemas, HTTP statuses, and negative boundary responses rather than generic truthy checks.</li>
+          <li><strong>Meaningful Test Descriptions:</strong> Structure tests with explicit <code>should [expected result] when [condition]</code> naming.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="lead-box" style="margin-top: 4px; margin-bottom: 0;">
+      <p>
+        <strong>Verification Status:</strong> All 27 unit tests pass with 100% pass rate. CI pipeline (.github/workflows/ci.yml) builds, lints, tests, and validates container image builds. Comprehensive documentation delivered in <code>qa/test-strategy.md</code>, <code>qa/BUGS.md</code>, <code>qa/performance-test.js</code>, and <code>devops/deployment-runbook.md</code>.
+      </p>
+    </div>
+
+    <div class="footer">
+      <span>Ella Tech Backend QA/DevOps Blueprint</span>
+      <span>Page 3 of 3</span>
+    </div>
+  </div>
+
+</body>
+</html>

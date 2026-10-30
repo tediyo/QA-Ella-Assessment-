@@ -67,6 +67,10 @@ Both the **Quality Assurance** track and **DevOps** track have been fully comple
 ├── docker-compose.yml               # Fixed multi-container production Compose
 ├── docker-compose.dev.yml           # Fixed local database Compose
 ├── Dockerfile                       # Hardened multi-stage Dockerfile (non-root, health check)
+├── Ella-Tech-QA-DevOps-Architecture.pdf # Comprehensive 3-Page Architecture Blueprint PDF
+├── docs/
+│   ├── architecture-overview.pdf    # Duplicate PDF copy in docs/
+│   └── architecture-overview.html   # Full Vector SVG HTML source for the architecture
 └── README-SUBMISSION.md             # This document
 ```
 

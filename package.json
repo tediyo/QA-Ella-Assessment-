@@ -23,7 +23,8 @@
         "migration:run": "typeorm-ts-node-commonjs migration:run -d ./data-source.ts",
         "migration:revert": "typeorm-ts-node-commonjs migration:revert -d ./data-source.ts",
         "test:api": "jest --config qa/automation-framework/jest.config.js",
-        "test:playwright": "playwright test --config qa/playwright/playwright.config.ts"
+        "test:playwright": "playwright test --config qa/playwright/playwright.config.ts",
+        "generate:pdf": "node scripts/generate-architecture-pdf.js"
     },
     "dependencies": {
         "@nestjs/common": "^11.0.1",
