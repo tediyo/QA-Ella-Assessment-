@@ -64,3 +64,14 @@ npx jest --config qa/automation-framework/jest.config.js tests/e2e-user-flow.spe
 API_BASE_URL=https://staging.api.ella.internal npm run test:api
 ```
 
+---
+
+## 📊 Viewing the HTML Test Report
+
+Every execution of `npm run test:api` updates the interactive HTML dashboard at:
+`reports/api-test-report.html`
+
+- **Windows (PowerShell)**: `Start-Process "reports/api-test-report.html"`
+- **macOS / Linux**: `open reports/api-test-report.html` or `xdg-open reports/api-test-report.html`
+- Contains colored SVG pass/fail pie charts, individual endpoint response time latency metrics, and real-time search/filters.
+

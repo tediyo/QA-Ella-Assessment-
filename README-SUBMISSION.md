@@ -203,6 +203,58 @@ k6 run qa/performance-test.js
 
 ---
 
+## 📊 How to Generate & View Interactive HTML Test Reports
+
+Every test execution automatically generates an interactive, high-resolution HTML dashboard containing colored SVG pie charts, response time distribution histograms, KPI metric cards, and real-time search/filtering.
+
+### 1. Generating the Reports Locally
+
+| Test Command | Generated Report File | Description |
+|---|---|---|
+| `npm test` | [`reports/unit-test-report.html`](reports/unit-test-report.html) | Unit test results (27 tests across Users, Products, Transactions) with execution timings & pass rates |
+| `npm run test:api` | [`reports/api-test-report.html`](reports/api-test-report.html) | API automation framework results with live HTTP endpoint latency breakdown |
+| `npm run test:playwright` | [`playwright-report/index.html`](playwright-report/index.html) | Native Playwright interactive test runner report |
+
+### 2. How to Open & View the Reports
+
+#### On Windows (PowerShell):
+```powershell
+# Open the Unit Test Report in your default browser (Chrome/Edge):
+Start-Process "reports/unit-test-report.html"
+
+# Open the API Test Report:
+Start-Process "reports/api-test-report.html"
+
+# Open Playwright HTML Report (if run):
+npx playwright show-report playwright-report
+```
+
+#### On macOS / Linux:
+```bash
+# macOS:
+open reports/unit-test-report.html
+
+# Linux:
+xdg-open reports/unit-test-report.html
+```
+
+#### Via File Explorer:
+Navigate to the `reports` directory in your file manager and double-click `unit-test-report.html`.
+
+### 3. How to Download HTML Reports from GitHub Actions CI
+
+Every time code is pushed to GitHub, GitHub Actions runs the entire test suite and archives the interactive HTML report as a CI artifact:
+
+1. Open your repository on GitHub: `https://github.com/<YOUR_USERNAME>/<YOUR_REPO_NAME>`.
+2. Click on the **Actions** tab at the top.
+3. Select the latest run of **"Ella API CI/CD Pipeline"**.
+4. Scroll to the bottom to the **Artifacts** section:
+   - Click on **`html-test-report`** (downloads a `.zip` archive).
+   - Click on **`unit-test-coverage`** (downloads raw code coverage data).
+5. Extract the `.zip` file on your machine and open `unit-test-report.html` in any browser to inspect the visual charts, graphs, and timings.
+
+---
+
 ## 🔍 Assumptions & Suggested Next Steps
 
 1. **Database Locking**: Future releases should implement pessimistic write locks (`SELECT ... FOR UPDATE`) in `TransactionsService.create` to eliminate race conditions during high-concurrency flash sales.
